@@ -1,0 +1,6 @@
+com.android.chatsapp.test.app-annotation-experimental-1.3.0-0 C:\Users\kccho\.gradle\caches\transforms-3\4d19559a925da8f7d743d917f88b0d94\transformed\annotation-experimental-1.3.0\res
+com.android.chatsapp.test.app-core-1.5.0-1 C:\Users\kccho\.gradle\caches\transforms-3\5aa94e013c2d847a44244475b354af7c\transformed\core-1.5.0\res
+com.android.chatsapp.test.app-androidTest-2 D:\sem6\app\build\generated\res\resValues\androidTest\debug
+com.android.chatsapp.test.app-mergeDebugAndroidTestResources-3 D:\sem6\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.android.chatsapp.test.app-mergeDebugAndroidTestResources-4 D:\sem6\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.android.chatsapp.test.app-merged_res-5 D:\sem6\app\build\intermediates\merged_res\debugAndroidTest
