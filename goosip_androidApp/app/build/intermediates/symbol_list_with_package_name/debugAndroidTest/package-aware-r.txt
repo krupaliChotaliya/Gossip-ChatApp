@@ -1,3 +1,0 @@
-com.android.chatsapp.test
-style WhiteBackgroundDialogTheme
-style WhiteBackgroundTheme
