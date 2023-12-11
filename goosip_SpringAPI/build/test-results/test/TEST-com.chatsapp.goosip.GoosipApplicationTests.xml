@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.chatsapp.goosip.GoosipApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-11-06T05:16:32" hostname="DELL_G15" time="0.94">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.chatsapp.goosip.GoosipApplicationTests" time="0.94"/>
+  <system-out><![CDATA[Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+10:46:30.837 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.chatsapp.goosip.GoosipApplicationTests]: GoosipApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+10:46:30.975 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.chatsapp.goosip.GoosipApplication for test class com.chatsapp.goosip.GoosipApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.5)
+
+2023-11-06T10:46:31.428+05:30  INFO 10256 --- [    Test worker] c.c.goosip.GoosipApplicationTests        : Starting GoosipApplicationTests using Java 17.0.9 with PID 10256 (started by kccho in D:\goosip)
+2023-11-06T10:46:31.431+05:30  INFO 10256 --- [    Test worker] c.c.goosip.GoosipApplicationTests        : No active profile set, falling back to 1 default profile: "default"
+2023-11-06T10:46:32.700+05:30  INFO 10256 --- [    Test worker] c.c.goosip.GoosipApplicationTests        : Started GoosipApplicationTests in 1.526 seconds (process running for 3.064)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
