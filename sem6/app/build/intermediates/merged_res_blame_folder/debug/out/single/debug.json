@@ -1,0 +1,202 @@
+[
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_avatar.png.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/avatar.png"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.android.chatsapp-main-62:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.android.chatsapp-main-62:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_ic_fb_love.png.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/ic_fb_love.png"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/layout_activity_setup_profile.xml.flat",
+        "source": "com.android.chatsapp-main-62:/layout/activity_setup_profile.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/layout_activity_phone_no_verification.xml.flat",
+        "source": "com.android.chatsapp-main-62:/layout/activity_phone_no_verification.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/xml_backup_rules.xml.flat",
+        "source": "com.android.chatsapp-main-62:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/xml_data_extraction_rules.xml.flat",
+        "source": "com.android.chatsapp-main-62:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/layout_fragment_chats.xml.flat",
+        "source": "com.android.chatsapp-main-62:/layout/fragment_chats.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/layout_show_user_layout.xml.flat",
+        "source": "com.android.chatsapp-main-62:/layout/show_user_layout.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_ic_fb_like.png.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/ic_fb_like.png"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.android.chatsapp-main-62:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_mobile_auth.png.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/mobile_auth.png"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.android.chatsapp-main-62:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.android.chatsapp-main-62:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/layout_item_receive.xml.flat",
+        "source": "com.android.chatsapp-main-62:/layout/item_receive.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_border.xml.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/border.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/layout_item_statusview.xml.flat",
+        "source": "com.android.chatsapp-main-62:/layout/item_statusview.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/layout_image_message_receive.xml.flat",
+        "source": "com.android.chatsapp-main-62:/layout/image_message_receive.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/layout_activity_main.xml.flat",
+        "source": "com.android.chatsapp-main-62:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/layout_activity_otpverify.xml.flat",
+        "source": "com.android.chatsapp-main-62:/layout/activity_otpverify.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_camera_icon.xml.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/camera_icon.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.android.chatsapp-main-62:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/layout_fragment_status.xml.flat",
+        "source": "com.android.chatsapp-main-62:/layout/fragment_status.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_sent_drawable.xml.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/sent_drawable.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_online_icon.xml.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/online_icon.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/layout_item_send.xml.flat",
+        "source": "com.android.chatsapp-main-62:/layout/item_send.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_receive_drawable.xml.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/receive_drawable.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_otp_verify.png.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/otp_verify.png"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/layout_activity_chat.xml.flat",
+        "source": "com.android.chatsapp-main-62:/layout/activity_chat.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_textbox_outline.xml.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/textbox_outline.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.android.chatsapp-main-62:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_bg.png.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/bg.png"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_ic_fb_laugh.png.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/ic_fb_laugh.png"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_ic_fb_wow.png.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/ic_fb_wow.png"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.android.chatsapp-main-62:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_ic_fb_sad.png.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/ic_fb_sad.png"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/menu_menu.xml.flat",
+        "source": "com.android.chatsapp-main-62:/menu/menu.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.android.chatsapp-main-62:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.android.chatsapp-main-62:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.android.chatsapp-main-62:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/layout_fragment_calls.xml.flat",
+        "source": "com.android.chatsapp-main-62:/layout/fragment_calls.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_send_icon.xml.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/send_icon.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.android.chatsapp-main-62:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/layout_image_message_send.xml.flat",
+        "source": "com.android.chatsapp-main-62:/layout/image_message_send.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_circle_green.xml.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/circle_green.xml"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_ic_fb_angry.png.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/ic_fb_angry.png"
+    },
+    {
+        "merged": "com.android.chatsapp-merged_res-60:/drawable_file_attachment.xml.flat",
+        "source": "com.android.chatsapp-main-62:/drawable/file_attachment.xml"
+    }
+]
