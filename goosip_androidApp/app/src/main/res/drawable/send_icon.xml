@@ -1,5 +1,29 @@
-<vector android:autoMirrored="true" android:height="24dp"
-    android:tint="#000000" android:viewportHeight="24"
-    android:viewportWidth="24" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="@android:color/white" android:pathData="M2.01,21L23,12 2.01,3 2,10l15,2 -15,2 0.01,7z"/>
-</vector>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Circular border -->
+    <item>
+        <shape
+            android:shape="oval">
+            <solid android:color="#08770C" />
+        </shape>
+    </item>
+
+    <!-- White filled path (your vector path) -->
+    <item
+        android:top="4dp"
+        android:bottom="4dp"
+        android:left="5dp"
+        android:right="4dp">
+        <vector
+            android:autoMirrored="true"
+            android:height="24dp"
+            android:tint="#E0DDE6"
+            android:viewportHeight="24"
+            android:viewportWidth="24"
+            android:width="24dp"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+            <path
+                android:fillColor="@android:color/white"
+                android:pathData="M2.01,21L23,12 2.01,3 2,10l15,2 -15,2 0.01,7z" />
+        </vector>
+    </item>
+</layer-list>

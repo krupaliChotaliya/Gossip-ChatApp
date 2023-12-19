@@ -55,7 +55,7 @@ class UserAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.username.text = list[position].name
-        holder.lastmesage.text = list[position].status
+        holder.lastmesage.text = list[position].lastMessage
         Picasso
             .get()
             .load(list[position].profileImg)

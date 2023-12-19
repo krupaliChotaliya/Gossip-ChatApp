@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity() {
             )
             startActivity(intent)
         }
-
         val viewPager: ViewPager2 = findViewById(R.id.viewPager)
         val fragmentTitles = listOf("Chats", "Status", "Calls")
         val fragments: ArrayList<Fragment> = arrayListOf(
@@ -70,7 +69,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         when (item.itemId) {
             R.id.profile -> {
                 val intent = Intent(this@MainActivity, SetupProfileActivity::class.java)

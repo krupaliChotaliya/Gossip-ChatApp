@@ -66,7 +66,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var senderRoom: String
     private lateinit var receiverRoom: String
     private var senderUid: String = FirebaseAuth.getInstance().uid.toString()
-    private var baseUrl = "http://192.168.125.10:8080/"
+    private var baseUrl = "http://192.168.205.10:8080/"
     private lateinit var bitmap: Bitmap
     private val retrofit = Retrofit.createRetrofitInstance(baseUrl)
     private lateinit var loadingbar: ProgressDialog
@@ -96,7 +96,7 @@ class ChatActivity : AppCompatActivity() {
                     Log.i("FCMtoken", FCMTOKEN)
                 }
             }
-        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
+//        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
 
 
         //binding viewmodel
@@ -129,7 +129,7 @@ class ChatActivity : AppCompatActivity() {
 
 
             getRecevierStatus()
-            updateStatus("online")
+            updateStatus("status","online")
 
             Picasso.get().load(receiver.profileImg).into(binding.profileImg)
             //for back button
@@ -154,12 +154,10 @@ class ChatActivity : AppCompatActivity() {
                                 println("New document added: $newDocument")
                                 getMessages(senderRoom)
                             }
-
                             com.google.firebase.firestore.DocumentChange.Type.MODIFIED -> {
                                 val modifiedDocument = documentChange.document.data
                                 println("Document modified: $modifiedDocument")
                             }
-
                             com.google.firebase.firestore.DocumentChange.Type.REMOVED -> {
                                 val removedDocument = documentChange.document.data
                                 println("Document removed: $removedDocument")
@@ -177,12 +175,11 @@ class ChatActivity : AppCompatActivity() {
                     after: Int
                 ) {
                     if (s.toString().trim().isEmpty()) {
-                        updateStatus("online")
+                        updateStatus("status","online")
                     } else {
-                        updateStatus("Typing")
+                        updateStatus("status","Typing")
                     }
                 }
-
                 override fun onTextChanged(
                     s: CharSequence?,
                     start: Int,
@@ -190,24 +187,23 @@ class ChatActivity : AppCompatActivity() {
                     count: Int
                 ) {
                     if (s.toString().trim().isEmpty()) {
-                        updateStatus("online")
+                        updateStatus("status","online")
                     } else {
-                        updateStatus("Typing")
+                        updateStatus("status","Typing")
                     }
                 }
-
                 override fun afterTextChanged(s: Editable?) {
                     if (s.toString().trim().isEmpty()) {
-                        updateStatus("online")
+                        updateStatus("status","online")
                     } else {
-                        updateStatus("Typing")
+                        updateStatus("status","Typing")
                     }
                 }
             })
 
 
             binding.sendBtn.setOnClickListener(View.OnClickListener {
-                updateStatus("typing")
+                updateStatus("status","typing")
                 var messagetxt: String = binding.messageBox.text.toString()
                 Log.i("messageBox", messagetxt)
 
@@ -223,17 +219,15 @@ class ChatActivity : AppCompatActivity() {
 
                 //FCM send notification
                 if (messagetxt.isNotEmpty()) {
-                    PushNotification(
+                   val push= PushNotification(
                         FCMTOKEN,
                         NotificationData("gossip", messagetxt)
-                    ).also {
-                        sendNotification(it)
-                    }
+                    )
+                    sendNotification(push)
                 }
             })
             binding.attachbtn.setOnClickListener(View.OnClickListener {
-                updateStatus("typing")
-
+                updateStatus("status","typing")
                 val intent: Intent = Intent()
                 intent.action = Intent.ACTION_GET_CONTENT
                 intent.type = "image/*"
@@ -256,6 +250,12 @@ class ChatActivity : AppCompatActivity() {
                         messages = response.body()!!
                         if (response.code() == 200) {
                             Log.i("200[getMessages]", "added>>>>>>>>>>>>>" + messages)
+
+                            //update lastmessage to user table
+                            var last_message= messages[messages.size - 1].message
+                            Log.i("lastMessage",last_message)
+                            updateStatus("lastMessage",last_message)
+
                             adapter = MessageAdapter(applicationContext, messages)
                             binding.messageRecycleView.adapter = adapter
                             binding.messageRecycleView.scrollToPosition(messages.size - 1)
@@ -376,12 +376,12 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    fun updateStatus(status: String) {
+    fun updateStatus(fieldName:String,value: String) {
         try {
             val retrofit = Retrofit.createRetrofitInstance(baseUrl)
             val apiService = retrofit.create(UserApiService::class.java)
             var call: Call<ResponseBody> =
-                apiService.updateStatus(userId, status)
+                apiService.updateStatus(userId, fieldName,value)
             call.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(
                     call: Call<ResponseBody>, response: Response<ResponseBody>
@@ -390,7 +390,6 @@ class ChatActivity : AppCompatActivity() {
                         val responseBody = response.body()?.string()
                         Log.i("Success>>>", responseBody ?: "")
                         getRecevierStatus()
-
                         Log.i("success[updateStatus]", responseBody.toString())
                         Log.i("response body", response.toString())
                     } else {
@@ -398,7 +397,6 @@ class ChatActivity : AppCompatActivity() {
                         Log.i("error", response.message())
                     }
                 }
-
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Log.i("error", t.toString())
                 }
@@ -431,7 +429,6 @@ class ChatActivity : AppCompatActivity() {
                         Log.i("error", response.message())
                     }
                 }
-
                 override fun onFailure(call: Call<User>, t: Throwable) {
                     Log.i("error", t.toString())
                 }
@@ -456,6 +453,9 @@ class ChatActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        //TODO:last msg
+//        val lastMessage = messages.last()
+//        Log.i("lastmsg",lastMessage.message)
         getRecevierStatus()
     }
 
@@ -469,15 +469,21 @@ class ChatActivity : AppCompatActivity() {
     //back btn
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onSupportNavigateUp(): Boolean {
-        updateStatus("last seen " + getCurrentTime())
+        updateStatus("status","last seen " + getCurrentTime())
         finish()
         return super.onSupportNavigateUp()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBackPressed() {
-        updateStatus("last seen " + getCurrentTime())
+        updateStatus("status","last seen " + getCurrentTime())
         super.onBackPressed()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onPause() {
+        updateStatus("status","last seen " + getCurrentTime())
+        super.onPause()
     }
 
     //SEND NOTIFICATION
@@ -486,7 +492,6 @@ class ChatActivity : AppCompatActivity() {
             try {
                 Log.i("notify[sendNotification]", notification.to)
                 val response:Call<JsonElement> = RetrofitInstance.api.postNotification(notification)
-
                 val retrofitResponse = response.execute()
                 if (retrofitResponse.isSuccessful) {
                     val responseBody = retrofitResponse.body()
