@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
     <color name="gray">#E3E3E3</color>
     <color name="greeen">#8BC34A</color>
+    <color name="greeen_dark">#004400</color>
     <color name="my_light_primary">#4CAF50</color>
     <color name="my_dark_primary">#8BC34A</color>
+    <color name="colorPrimary">#536DFE</color>
+    <color name="colorPrimarydark">#536DFE</color>
+    <color name="colorAccent">#F44336</color>
+    <color name="colorTextPrimary">#0D0C0C</color>
+    <color name="colorTextSecondary">#090808</color>
+    <color name="colorDivider">#BDBDBD</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorSecondary">#4CAF50</color>
+    <color name="chat_color_sender">#1E88E5</color>
+    <color name="chat_color_receiver">#7CB342</color>
 </resources>

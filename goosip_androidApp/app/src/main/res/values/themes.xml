@@ -5,7 +5,12 @@
          <item name="colorPrimary">@color/my_light_primary</item>
         <item name="colorOnPrimary">@color/black</item>
         <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
+        <item name="colorSecondary">@color/white</item>
+        <item name="textColor">@color/black</item>
+        <item name="materialButtonStyle">@color/colorPrimary</item>
     </style>
-
     <style name="Theme.ChatsApp" parent="Base.Theme.ChatsApp" />
+    <style name="Theme.ChatsApp.verify" parent="Widget.AppCompat.Button">
+        <item name="backgroundColor">@color/colorPrimary</item>
+    </style>
 </resources>

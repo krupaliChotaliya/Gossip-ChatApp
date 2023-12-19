@@ -1,5 +1,6 @@
 package com.android.chatsapp.notification
 
+
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_HIGH
@@ -15,6 +16,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.android.chatsapp.R
 import com.android.chatsapp.presentation.ChatActivity
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlin.random.Random
@@ -42,31 +44,35 @@ class FirebaseService:FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-
+        Log.i("onMessageReceived","enter???????????")
         val intent = Intent(
             this,
             ChatActivity::class.java
         )
+
+        val notificationManager=getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationId= Random.nextInt()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            createNotificationChannel(notificationManager)
+        }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
         val pendingIntent = PendingIntent.getActivity(this,0,intent,
             FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
         val notification=NotificationCompat.Builder(this,CHANNEL_ID)
-            .setContentTitle(message.data["title"])
-            .setContentText(message.data["message"])
+            .setContentTitle( message.notification?.title)
+            .setContentText( message.notification?.body)
+            .setColor(Color.GREEN)
             .setSmallIcon(R.drawable.avatar)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
             .build()
 
-        val notificationManager=getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val notificationId=Random.nextInt()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            createNotificationChannel(notificationManager)
-        }
-
+//        showing the notification
         notificationManager.notify(notificationId,notification)
+        val response = FirebaseMessaging.getInstance().send(message)
+        println("Successfully sent message: $response")
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -76,7 +82,7 @@ class FirebaseService:FirebaseMessagingService() {
         val channel=NotificationChannel(CHANNEL_ID,channelName,IMPORTANCE_HIGH).apply {
             description="My channel description"
             enableLights(true)
-            lightColor=Color.GREEN
+            lightColor= Color.GREEN
         }
         notificationManager.createNotificationChannel(channel)
     }

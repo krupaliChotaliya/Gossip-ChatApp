@@ -44,7 +44,6 @@ class OTPVerifyActivity : AppCompatActivity() {
                 .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
                     }
-
                     override fun onVerificationFailed(e: FirebaseException) {
                         Log.i("Not verify", "failed");
                         Toast.makeText(this@OTPVerifyActivity, "Failed", Toast.LENGTH_SHORT).show()
@@ -54,7 +53,6 @@ class OTPVerifyActivity : AppCompatActivity() {
                         )
                         startActivity(intent)
                     }
-
                     override fun onCodeSent(
                         verifyId: String,
                         forceResendingToken: PhoneAuthProvider.ForceResendingToken
@@ -84,7 +82,6 @@ class OTPVerifyActivity : AppCompatActivity() {
                                     )
                                     startActivity(intent)
                                     finishAffinity()
-
                                 } else {
                                     Toast.makeText(
                                         this@OTPVerifyActivity,
@@ -97,7 +94,7 @@ class OTPVerifyActivity : AppCompatActivity() {
                 } else {
                     Log.i("Not verify", "Not verify");
                     Toast.makeText(this@OTPVerifyActivity, "Not verify", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(
+                    Intent(
                         this@OTPVerifyActivity,
                         PhoneNoVerificationActivity::class.java
                     )

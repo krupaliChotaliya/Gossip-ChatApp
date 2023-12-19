@@ -32,5 +32,8 @@ interface UserApiService {
     fun getUser(@Query("currentUserId") currentUser: String):Call<User>
 
     @PUT("/userStatus")
-    fun updateStatus(@Query("uid")uid:String,@Query("status")status:String):Call<ResponseBody>
+    fun updateStatus(@Query("uid")uid:String,@Query("fieldName")fieldName:String,@Query("value")value:String):Call<ResponseBody>
+
+    @PUT("/updateUser")
+    fun updateUsernameAndAbout(@Query("uid")uid:String,@Query("name")name:String,@Query("about")about:String):Call<ResponseBody>
 }

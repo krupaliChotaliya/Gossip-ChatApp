@@ -9,13 +9,15 @@ data class User(
     val about: String,
     val profileImg: String,
     var active:String,
-    var status:String
+    var status:String,
+    var lastMessage:String ="No message"
 
 ) : Parcelable {
 
-    constructor() : this("", "","","","","")
+    constructor() : this("", "","","","","","")
 
     constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
@@ -31,6 +33,7 @@ data class User(
         parcel.writeString(profileImg)
         parcel.writeString(active)
         parcel.writeString(status)
+        parcel.writeString(lastMessage)
     }
 
     override fun describeContents(): Int {

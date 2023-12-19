@@ -23,7 +23,7 @@ class ChatsFragment : Fragment(),UserAdapter.RecycleViewEvent   {
 
     private lateinit var binding: FragmentChatsBinding
     private  lateinit var userList: ArrayList<User>
-    private var baseUrl = "http://192.168.125.10:8080/"
+    private var baseUrl = "http://192.168.205.10:8080/"
     private val apiService = Retrofit.createRetrofitInstance(baseUrl).create(UserApiService::class.java)
     private var CurrentUser: String = FirebaseAuth.getInstance().uid.toString()
 
@@ -31,8 +31,9 @@ class ChatsFragment : Fragment(),UserAdapter.RecycleViewEvent   {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.i("currentuser",CurrentUser)
+        Log.i("currentUser",CurrentUser)
         binding = FragmentChatsBinding.inflate(layoutInflater,container, false)
+        getUsers()
         return binding.root
     }
 

@@ -50,8 +50,6 @@ android {
     }
 }
 
-
-
 dependencies {
 
     implementation("androidx.core:core-ktx:1.9.0")
@@ -62,7 +60,6 @@ dependencies {
     implementation("androidx.browser:browser:1.2.0")
     implementation("com.google.firebase:firebase-auth:22.2.0")
     implementation("com.google.firebase:firebase-messaging:23.3.1")
-
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -94,7 +91,7 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.9.2")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.2")
 
-    //corountines
+    //coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
 
@@ -121,8 +118,16 @@ dependencies {
     //FCM
     implementation("com.google.firebase:firebase-messaging:23.3.1")
 
+    //status
     implementation("com.github.3llomi:CircularStatusView:V1.0.3")
     implementation("io.perfmark:perfmark-api:0.25.0")
+
+    implementation("com.google.firebase:firebase-inappmessaging-display:20.4.0")
+
+    //add lottie dependency
+    implementation("com.airbnb.android:lottie:6.2.0")
+    //Image picker
+    implementation("com.github.dhaval2404:imagepicker:2.1")
 }
 kapt {
     correctErrorTypes = true

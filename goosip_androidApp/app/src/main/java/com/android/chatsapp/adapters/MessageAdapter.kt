@@ -1,6 +1,7 @@
 package com.android.chatsapp.adapters
 
 import android.content.Context
+import android.icu.text.SimpleDateFormat
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
@@ -65,16 +66,19 @@ class MessageAdapter(private val context: Context, var messages: ArrayList<Messa
                     viewHolder.binding.message.text = message.message
                     viewHolder.binding.time.text = getShortDate(message.timestamp)
 
+
                     //visibility
-                    viewHolder.binding.time.visibility = View.VISIBLE
-                    viewHolder.binding.message.visibility = View.VISIBLE
+                    viewHolder.binding.message.visibility=View.VISIBLE
+                    viewHolder.binding.messageRoot.visibility = View.GONE
+
                 } else {
                     Picasso
                         .get()
                         .load(message.message)
                         .into(viewHolder.binding.imageViewMessageImage)
-                    viewHolder.binding.textViewMessageTime.text = getShortDate(message.timestamp)
+                    viewHolder.binding.time.text = getShortDate(message.timestamp)
                     //visibility
+                    viewHolder.binding.message.visibility=View.GONE
                     viewHolder.binding.messageRoot.visibility = View.VISIBLE
                 }
             }
@@ -84,17 +88,19 @@ class MessageAdapter(private val context: Context, var messages: ArrayList<Messa
                     viewHolder.binding.message.text = message.message
                     viewHolder.binding.time.text = getShortDate(message.timestamp)
 
-                    //visibility
-                    viewHolder.binding.time.visibility = View.VISIBLE
-                    viewHolder.binding.message.visibility = View.VISIBLE
+
+                    viewHolder.binding.message.visibility=View.VISIBLE
+                    viewHolder.binding.messageRoot.visibility = View.GONE
+
                 } else {
                     Picasso
                         .get()
                         .load(message.message)
                         .into(viewHolder.binding.imageViewMessageImage)
-                    viewHolder.binding.textViewMessageTime.text = getShortDate(message.timestamp)
+                    viewHolder.binding.time.text = getShortDate(message.timestamp)
 
                     //visibility
+                    viewHolder.binding.message.visibility=View.GONE
                     viewHolder.binding.messageRoot.visibility = View.VISIBLE
                 }
             }
@@ -105,6 +111,8 @@ class MessageAdapter(private val context: Context, var messages: ArrayList<Messa
         if (ts == null) return ""
         val calendar = Calendar.getInstance(Locale.getDefault())
         calendar.timeInMillis = ts
-        return DateFormat.format("hh:mm a", calendar).toString()
+        val dateFormat = SimpleDateFormat("hh:mm a MMMM d", Locale.getDefault())
+        dateFormat.isLenient = false
+        return dateFormat.format(calendar.time)
     }
 }
