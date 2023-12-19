@@ -8,14 +8,24 @@ public class User {
     private String profileImg;
     private String active="1";
     private String status;
+    private String lastMessage="No message";
 
-    public User(String uid, String name, String about, String profileImg, String active, String status) {
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
+    public User(String uid, String name, String about, String profileImg, String active, String status, String lastMessage) {
         this.uid = uid;
         this.name = name;
         this.about = about;
         this.profileImg = profileImg;
         this.active = active;
         this.status = status;
+        this.lastMessage = lastMessage;
     }
 
     public String getStatus() {

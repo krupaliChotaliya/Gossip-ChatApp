@@ -22,5 +22,8 @@ public interface UserService {
 
     Boolean logout(String documentId) throws InterruptedException;
 
-    ResponseEntity<String> updateStatus(String uid, String status);
+    ResponseEntity<String> UpdateField(String uid,String fieldName, String value);
+
+    ResponseEntity<String> UpdateNamAndAbout(String uid,String name, String about);
+
 }
