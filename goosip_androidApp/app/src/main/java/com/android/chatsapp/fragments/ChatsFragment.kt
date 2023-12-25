@@ -50,10 +50,14 @@ class ChatsFragment : Fragment(),UserAdapter.RecycleViewEvent   {
 
 
     override fun onItemClick(position: Int) {
-        var clickedUser:User=userList[position]
-        val intent = Intent(activity, ChatActivity::class.java)
-        intent.putExtra("user", clickedUser)
-        startActivity(intent)
+        if (position >= 0 && position < userList.size) {
+            var clickedUser: User = userList[position]
+            val intent = Intent(context, ChatActivity::class.java)
+            intent.putExtra("user", clickedUser)
+            startActivity(intent)
+        } else {
+            Log.e("ChatsFragment", "Invalid position: $position")
+        }
     }
 
 
@@ -62,7 +66,7 @@ class ChatsFragment : Fragment(),UserAdapter.RecycleViewEvent   {
         getUsers()
     }
 
-    fun getUsers() {
+   private fun getUsers() {
         val call: Call<ArrayList<User>> = apiService.getAllUsers(CurrentUser)
         call.enqueue(object : Callback<ArrayList<User>> {
             override fun onResponse(call: Call<ArrayList<User>>, response: Response<ArrayList<User>>) {

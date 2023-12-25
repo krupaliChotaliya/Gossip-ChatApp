@@ -8,14 +8,6 @@ import androidx.lifecycle.ViewModel
 import com.android.chatsapp.BR
 
 class UserViewModel : ViewModel() {
-    
-//    val status= MutableLiveData<String>()
-//    val statusVal: LiveData<String>
-//        get() = status
-//
-//    fun updateItems(statusvalue:String){
-//        status.value=statusvalue
-//    }
 
     val status = ObservableField<String>()
     init {

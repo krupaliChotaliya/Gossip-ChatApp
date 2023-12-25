@@ -21,7 +21,6 @@ class UserAdapter(
 
     class ViewHolder(itemView: View, private val listener: RecycleViewEvent) :
         RecyclerView.ViewHolder(itemView), OnClickListener {
-
         val username: TextView
         val lastmesage: TextView
         val profilePicture: CircleImageView
