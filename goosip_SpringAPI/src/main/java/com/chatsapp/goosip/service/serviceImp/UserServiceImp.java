@@ -64,7 +64,7 @@ public class UserServiceImp implements UserService {
             return responseClass.getName();
 
         } catch (Exception e) {
-
+            System.out.printf("Exception[updateUser]: " + e);
         }
         return null;
     }
@@ -86,7 +86,7 @@ public class UserServiceImp implements UserService {
             System.out.println(users);
             return users;
         } catch (Exception e) {
-            System.out.printf("Exception[getUser]: " + e);
+            System.out.printf("Exception[getUsers]: " + e);
         }
         return null;
     }
@@ -154,13 +154,28 @@ public class UserServiceImp implements UserService {
 
 
     @Override
-    public ResponseEntity<String> updateStatus(String uid,String status) {
+    public ResponseEntity<String> UpdateField(String uid,String fieldName,String value) {
         try{
             Firestore firestore = FirestoreClient.getFirestore();
             CollectionReference userCollection = firestore.collection("users");
             DocumentReference docRef = userCollection.document(uid);
-            docRef.update("status", status);
-            return ResponseEntity.status(HttpStatus.OK).body(status);
+            docRef.update(fieldName, value);
+            return ResponseEntity.status(HttpStatus.OK).body(value);
+        }catch (Exception e){
+            System.out.println("[updateStatus]Exception:"+e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> UpdateNamAndAbout(String uid, String name, String about) {
+        try{
+            Firestore firestore = FirestoreClient.getFirestore();
+            CollectionReference userCollection = firestore.collection("users");
+            DocumentReference docRef = userCollection.document(uid);
+            docRef.update("name", name);
+            docRef.update("about", about);
+            return ResponseEntity.status(HttpStatus.OK).body(name+" "+about);
         }catch (Exception e){
             System.out.println("[updateStatus]Exception:"+e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

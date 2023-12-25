@@ -1,5 +1,6 @@
 package com.android.chatsapp.presentation
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import java.util.concurrent.TimeUnit
+private lateinit var loadingbar: ProgressDialog
 
 class OTPVerifyActivity : AppCompatActivity() {
 
@@ -31,11 +33,15 @@ class OTPVerifyActivity : AppCompatActivity() {
         checkAuthenctionStatus()
     }
 
-    fun checkAuthenctionStatus() {
+    private fun checkAuthenctionStatus() {
         try {
             auth = FirebaseAuth.getInstance()
             val phoneno = intent.getStringExtra("phonenumber")
             binding.lblphoneno.text = "Verify $phoneno"
+
+            loadingbar = ProgressDialog(this@OTPVerifyActivity)
+            loadingbar.setMessage("Sending the OTP to your Phone number")
+            loadingbar.show()
 
             val options: PhoneAuthOptions = PhoneAuthOptions.newBuilder(auth)
                 .setPhoneNumber(phoneno.toString())
@@ -73,9 +79,11 @@ class OTPVerifyActivity : AppCompatActivity() {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(
                                         this@OTPVerifyActivity,
-                                        "Logged In",
+                                        "You are Successfully Logged In!!",
                                         Toast.LENGTH_SHORT
                                     ).show()
+
+                                    loadingbar.dismiss()
                                     val intent = Intent(
                                         this@OTPVerifyActivity,
                                         SetupProfileActivity::class.java

@@ -63,13 +63,24 @@ public class UserController {
         return userService.logout(documentId);
     }
 
-    @PutMapping("/userStatus")
-    public ResponseEntity<String> UpdateStatus(@RequestParam String uid, @RequestParam String status) {
+    @PutMapping("/userField")
+    public ResponseEntity<String> UpdateField(@RequestParam String uid,@RequestParam String fieldName, @RequestParam String value) {
         System.out.println("enter[UpdateStatus]");
         try {
-            return userService.updateStatus(uid, status);
+            return userService.UpdateField(uid,fieldName, value);
         } catch (Exception e) {
             System.out.println("[UpdateStatus] " + e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PutMapping("/updateUser")
+    public ResponseEntity<String> UpdateNamAndAbout(@RequestParam String uid,@RequestParam String name, @RequestParam String about){
+        System.out.println("enter[UpdateNamAndAbout]");
+        try {
+            return userService.UpdateNamAndAbout(uid,name, about);
+        } catch (Exception e) {
+            System.out.println("[UpdateNamAndAbout] " + e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }

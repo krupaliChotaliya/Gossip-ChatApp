@@ -30,6 +30,25 @@
         android:theme="@style/Theme.ChatsApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <service
+            android:name=".notify.MyFirebaseMessagingService"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".notify.testNote"
+            android:exported="false">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN"/>-->
+            <!--                <action android:name="android.intent.action.VIEW"/>-->
+            <!--                <category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--            </intent-filter>-->
+        </activity>
         <activity
             android:name=".presentation.ProfileImagePicker"
             android:exported="false" />
@@ -38,42 +57,37 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- <receiver -->
-        <!-- android:name=".notification.FirebaseDataReceiver" -->
-        <!-- android:exported="true" -->
-        <!-- android:permission="com.google.android.c2dm.permission.SEND"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="com.google.android.c2dm.intent.RECEIVE" /> -->
-        <!-- </intent-filter> -->
-        <!-- </receiver> -->
-        <activity
-            android:name=".presentation.ChatActivity"
-            android:exported="true" />
-        <activity
-            android:name=".presentation.SetupProfileActivity"
-            android:exported="true" >
         </activity>
-        <activity
-            android:name=".presentation.OTPVerifyActivity"
-            android:exported="false" />
-        <activity
-            android:name=".presentation.PhoneNoVerificationActivity"
-            android:exported="true"></activity>
-        <activity
-            android:name=".presentation.MainActivity"
-            android:exported="false"></activity>
 
-        <service
-            android:name=".notification.FirebaseService"
-            android:exported="false"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING.EVENT" />
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-    </application>
 
-</manifest>
+    <activity
+        android:name=".presentation.ChatActivity"
+        android:exported="true" />
+    <activity
+        android:name=".presentation.SetupProfileActivity"
+        android:exported="true" />
+    <activity
+        android:name=".presentation.OTPVerifyActivity"
+        android:exported="false" />
+    <activity
+        android:name=".presentation.PhoneNoVerificationActivity"
+        android:exported="true" />
+    <activity
+        android:name=".presentation.MainActivity"
+        android:exported="false" />
+
+    <!--        <service-->
+    <!--            android:name=".notification.FirebaseService"-->
+    <!--            android:exported="false"-->
+    <!--            android:permission="com.google.android.c2dm.permission.SEND">-->
+    <!--            <intent-filter>-->
+    <!--                <action android:name="com.google.firebase.MESSAGING.EVENT" />-->
+    <!--                <action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
+    <!--            </intent-filter>-->
+    <!--        </service>-->
+</application>
+
+    </manifest>
