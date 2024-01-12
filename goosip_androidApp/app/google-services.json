@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "874322116339",
+    "firebase_url": "https://chatsapp-6c61d-default-rtdb.firebaseio.com",
     "project_id": "chatsapp-6c61d",
     "storage_bucket": "chatsapp-6c61d.appspot.com"
   },
@@ -10,6 +11,25 @@
         "mobilesdk_app_id": "1:874322116339:android:2ad6343f8dd1f237d40186",
         "android_client_info": {
           "package_name": "com.android.chatsapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB63ccjOOPp6uNtDp49RuwfnUEmvcYnD_c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874322116339:android:f2888d3d999517aad40186",
+        "android_client_info": {
+          "package_name": "com.android.notificationapp"
         }
       },
       "oauth_client": [],

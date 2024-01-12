@@ -48,7 +48,6 @@ class testNote : AppCompatActivity() {
                 } catch (e: JSONException) {
                     Log.e("TAG", "onCreate: " + e.message)
                 }
-
                 sendNotification(notification)
             }
         }
@@ -72,7 +71,10 @@ class testNote : AppCompatActivity() {
                 params["Content-Type"] = contentType
                 return params
             }
+
         }
         requestQueue.add(jsonObjectRequest)
     }
+
+
 }

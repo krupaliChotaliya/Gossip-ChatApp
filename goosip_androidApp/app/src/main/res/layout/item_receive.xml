@@ -42,9 +42,9 @@
     <ImageView
         android:id="@+id/feeling"
         android:layout_width="16sp"
-        android:layout_height="19dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="19sp"
+        android:layout_marginStart="68sp"
+        android:layout_marginTop="8sp"
         android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="@+id/message"
         app:layout_constraintStart_toStartOf="@+id/message"
@@ -64,13 +64,13 @@
 
         <ImageView
             android:id="@+id/imageView_message_image"
-            android:layout_width="250dp"
+            android:layout_width="250sp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20sp"
             android:adjustViewBounds="true"
-            android:paddingStart="8dp"
-            android:paddingTop="4dp"
-            android:paddingEnd="8dp"
+            android:paddingStart="8sp"
+            android:paddingTop="4sp"
+            android:paddingEnd="8sp"
             android:scaleType="fitCenter"
             tools:src="@drawable/camera_icon" />
     </RelativeLayout>

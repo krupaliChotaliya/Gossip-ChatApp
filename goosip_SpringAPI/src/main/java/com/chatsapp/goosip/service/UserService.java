@@ -15,7 +15,7 @@ public interface UserService {
     public ResponseEntity<User> addUser(User user) throws InterruptedException, ExecutionException;
     User getUser(String documentId);
     String updateUser(User user);
-    List<User> getAllUser(String currentUser);
+    List<User> getAllUserExceptCurrentUser(String currentUser);
     ResponseEntity<String> uploadFile( MultipartFile file, String uid) throws IOException;
 
     boolean isloggedIn(String documentId);
@@ -26,4 +26,5 @@ public interface UserService {
 
     ResponseEntity<String> UpdateNamAndAbout(String uid,String name, String about);
 
+    List<User> getAllUser();
 }

@@ -12,24 +12,47 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.android.chatsapp.R
 import com.android.chatsapp.adapters.ViewPagerAdapter
+import com.android.chatsapp.api.Retrofit
+import com.android.chatsapp.api.UserApiService
 import com.android.chatsapp.databinding.ActivityMainBinding
 import com.android.chatsapp.fragments.CallsFragment
 import com.android.chatsapp.fragments.ChatsFragment
 import com.android.chatsapp.fragments.StatusFragment
-import com.android.chatsapp.helper.SharedPrefManager
+import com.android.chatsapp.helper.Constants
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.messaging.FirebaseMessaging
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var binding: ActivityMainBinding
+    private var baseUrl = Constants.API_BASE_URL
+    private var userId = FirebaseAuth.getInstance().currentUser!!.uid
+    private var token = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(findViewById(R.id.my_toolbar))
+
+        //fcm -Token generation
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("Token", "getInstanceId failed", task.exception)
+                    return@addOnCompleteListener
+                }
+                Log.w("Token",task.result)
+                token = task.result
+                updateField("fcmToken", token)
+            }
+
 
         //check whether user is logged in or not
         firebaseAuth = FirebaseAuth.getInstance()
@@ -45,6 +68,8 @@ class MainActivity : AppCompatActivity() {
                 PhoneNoVerificationActivity::class.java
             )
             startActivity(intent)
+            finish()
+            return
         }
         val viewPager: ViewPager2 = findViewById(R.id.viewPager)
         val fragmentTitles = listOf("Chats", "Status", "Calls")
@@ -90,6 +115,36 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun updateField(fieldName: String, value: String) {
+        try {
+            val retrofit = Retrofit.createRetrofitInstance(baseUrl)
+            val apiService = retrofit.create(UserApiService::class.java)
+            val call: Call<ResponseBody> =
+                apiService.updateField(userId, fieldName, value)
+            call.enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>, response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()?.string()
+                        Log.i("Success>>>", responseBody ?: "")
+                        Log.i("success[updateStatus]", responseBody.toString())
+                        Log.i("response body", response.toString())
+                    } else {
+                        Log.i("response body", response.body().toString())
+                        Log.i("error", response.message())
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.i("error", t.toString())
+                }
+            })
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 }

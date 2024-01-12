@@ -10,13 +10,15 @@ data class User(
     val profileImg: String,
     var active:String,
     var status:String,
-    var lastMessage:String ="No message"
+    var lastMessage:String ="No message",
+    var fcmToken:String=""
 
 ) : Parcelable {
 
-    constructor() : this("", "","","","","","")
+    constructor() : this("", "","","","","","","")
 
     constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
@@ -34,6 +36,7 @@ data class User(
         parcel.writeString(active)
         parcel.writeString(status)
         parcel.writeString(lastMessage)
+        parcel.writeString(fcmToken)
     }
 
     override fun describeContents(): Int {

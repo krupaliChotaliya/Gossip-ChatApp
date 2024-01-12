@@ -9,10 +9,10 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
+        android:layout_width="130sp"
+        android:layout_height="130sp"
         android:layout_gravity="center"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="80sp"
         app:lottie_rawRes="@raw/sendotp"
         app:lottie_autoPlay="true"
         app:lottie_loop="true" />
@@ -22,37 +22,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20sp"
+        android:layout_marginBottom="10sp"
         android:text="@string/otp_verification"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        tools:layout_editor_absoluteX="114dp" />
+        tools:layout_editor_absoluteX="114sp" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginHorizontal="30dp"
+        android:layout_marginHorizontal="30sp"
         android:gravity="center"
         android:text="Enter the OTP code to verify your phone number"
-        tools:layout_editor_absoluteX="114dp"
-        tools:layout_editor_absoluteY="225dp" />
+        tools:layout_editor_absoluteX="114sp"
+        tools:layout_editor_absoluteY="225sp" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_marginVertical="30dp"
+        android:layout_margin="20sp"
+        android:layout_marginVertical="30sp"
         app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="10sp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="20dp"
+            android:layout_margin="20sp"
             android:orientation="vertical">
 
             <com.mukeshsolanki.OtpView
@@ -62,10 +62,10 @@
                 android:inputType="number"
                 android:layout_gravity="center"
                 android:itemBackground="@color/gray"
-                android:textColor="@android:color/black"
+                android:textColor="@color/black"
                 app:OtpHideLineWhenFilled="true"
                 app:OtpItemCount="6"
-                app:OtpItemSpacing="6dp"
+                app:OtpItemSpacing="6sp"
                 app:OtpLineColor="@color/greeen"
                 app:OtpState_filled="true"
                 app:OtpViewType="line"
@@ -76,7 +76,7 @@
                 android:id="@+id/verify"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_margin="15sp"
                 android:textColor="@color/white"
                 android:background="@drawable/textbox_outline"
                 android:text="Verify"></Button>

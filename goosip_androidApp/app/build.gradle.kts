@@ -120,7 +120,6 @@ dependencies {
     //FCM
     implementation("com.google.firebase:firebase-messaging:23.4.0")
 
-
     //status
     implementation("com.github.3llomi:CircularStatusView:V1.0.3")
     implementation("io.perfmark:perfmark-api:0.25.0")
@@ -131,6 +130,9 @@ dependencies {
     implementation("com.airbnb.android:lottie:6.2.0")
     //Image picker
     implementation("com.github.dhaval2404:imagepicker:2.1")
+    //storyview
+
+    implementation ("com.github.shts:StoriesProgressView:3.0.0")
 }
 kapt {
     correctErrorTypes = true

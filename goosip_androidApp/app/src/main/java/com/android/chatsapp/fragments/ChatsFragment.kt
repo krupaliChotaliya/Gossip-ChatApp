@@ -12,6 +12,7 @@ import com.android.chatsapp.adapters.UserAdapter
 import com.android.chatsapp.api.Retrofit
 import com.android.chatsapp.api.UserApiService
 import com.android.chatsapp.databinding.FragmentChatsBinding
+import com.android.chatsapp.helper.Constants
 import com.android.chatsapp.model.User
 import com.android.chatsapp.presentation.ChatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -23,7 +24,7 @@ class ChatsFragment : Fragment(),UserAdapter.RecycleViewEvent   {
 
     private lateinit var binding: FragmentChatsBinding
     private  lateinit var userList: ArrayList<User>
-    private var baseUrl = "http://192.168.205.10:8080/"
+    private var baseUrl = Constants.API_BASE_URL
     private val apiService = Retrofit.createRetrofitInstance(baseUrl).create(UserApiService::class.java)
     private var CurrentUser: String = FirebaseAuth.getInstance().uid.toString()
 
@@ -81,12 +82,10 @@ class ChatsFragment : Fragment(),UserAdapter.RecycleViewEvent   {
                         adapter.notifyDataSetChanged()
                     }
                 } else {
-                    // Handle error
                     Log.i("getUsers[onResponse]Error", response.message())
                 }
             }
             override fun onFailure(call: Call<ArrayList<User>>, t: Throwable) {
-                // Handle failure
                 Log.i("getUsers[onFailure]", t.message.toString())
             }
         })

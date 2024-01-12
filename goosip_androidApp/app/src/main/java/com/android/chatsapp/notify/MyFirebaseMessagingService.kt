@@ -3,23 +3,32 @@ package com.android.chatsapp.notify
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.media.RingtoneManager
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.android.chatsapp.R
+import com.android.chatsapp.presentation.ChatActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import android.content.Context
-import com.android.chatsapp.presentation.ChatActivity
 import java.util.Random
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private val ADMIN_CHANNEL_ID = "admin_channel"
+
+    override fun onNewToken(token: String) {
+        Log.d("onNewToken", "Refreshed token: $token")
+        val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
+        val myEdit = sharedPreferences.edit()
+        myEdit.putString("receiverToken",token)
+        myEdit.apply()
+    }
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)

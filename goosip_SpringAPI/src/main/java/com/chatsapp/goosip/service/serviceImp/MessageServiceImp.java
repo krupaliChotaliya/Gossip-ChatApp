@@ -39,50 +39,6 @@ public class MessageServiceImp implements MessageService {
         return sb.toString();
     }
 
-//  public ResponseEntity<ArrayList<Message>> getMessages(String senderRoom) {
-//        ArrayList<Message> messages = new ArrayList<>();
-//        try {
-//            Firestore firestore = FirestoreClient.getFirestore();
-//            CollectionReference chatsCollection = firestore.collection("chats");
-//            DocumentReference chatDocument = chatsCollection.document(senderRoom);
-//            CollectionReference messageListCollection = chatDocument.collection("messageList");
-//
-//            messageListCollection.orderBy("timestamp").get().get().forEach(messageDocument -> {
-//                DocumentSnapshot messageSnapshot = messageDocument;
-//                Message message = messageSnapshot.toObject(Message.class);
-//                messages.add(message);
-//                System.out.println(messages);
-//            });
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-//        }
-//      return ResponseEntity.status(HttpStatus.OK).body(messages);
-//    }
-
-
-//    public ResponseEntity<ArrayList<Message>> getMessages(String senderRoom, int pageSize, int pageNumber) {
-//        ArrayList<Message> messages = new ArrayList<>();
-//        try {
-//            Firestore firestore = FirestoreClient.getFirestore();
-//            CollectionReference chatsCollection = firestore.collection("chats");
-//            DocumentReference chatDocument = chatsCollection.document(senderRoom);
-//            CollectionReference messageListCollection = chatDocument.collection("messageList");
-//
-//            Query query = messageListCollection.orderBy("timestamp").limit(pageSize).offset(pageSize * pageNumber);
-//            query.get().get().forEach(messageDocument -> {
-//                DocumentSnapshot messageSnapshot = messageDocument;
-//                Message message = messageSnapshot.toObject(Message.class);
-//                messages.add(message);
-//            });
-//            System.out.println(messages);
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-//        }
-//        return ResponseEntity.status(HttpStatus.OK).body(messages);
-//    }
-
     public ResponseEntity<ArrayList<Message>> getMessages(String senderRoom) {
         ArrayList<Message> messages = new ArrayList<>();
         try {

@@ -21,6 +21,9 @@ interface UserApiService {
     @PUT("/user")
     fun updateUser(@Body user:User):Call<ResponseBody>
 
+    @GET("/getusers")
+    fun getAllUser():Call<ArrayList<User>>
+
     @Multipart
     @POST("/upload")
     fun uploadImg(@Part file: MultipartBody.Part, @Part("userId") UserId: RequestBody):Call<ResponseBody>
@@ -32,7 +35,7 @@ interface UserApiService {
     fun getUser(@Query("currentUserId") currentUser: String):Call<User>
 
     @PUT("/userField")
-    fun updateStatus(@Query("uid")uid:String,@Query("fieldName")fieldName:String,@Query("value")value:String):Call<ResponseBody>
+    fun updateField(@Query("uid")uid:String,@Query("fieldName")fieldName:String,@Query("value")value:String):Call<ResponseBody>
 
     @PUT("/updateUser")
     fun updateUsernameAndAbout(@Query("uid")uid:String,@Query("name")name:String,@Query("about")about:String):Call<ResponseBody>
