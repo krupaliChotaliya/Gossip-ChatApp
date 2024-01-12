@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/image_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8sp"
+    android:layout_marginTop="8sp"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/receiverStatus"
+        android:clickable="true"
+        android:layout_width="75sp"
+        android:layout_height="75sp"
+        android:layout_centerInParent="true"
+        android:padding="6sp"
+        android:src="@mipmap/ic_launcher" />
+
+
+    <com.devlomi.circularstatusview.CircularStatusView
+        android:id="@+id/circular_status_view"
+        android:layout_width="75sp"
+        android:layout_height="75sp"
+        android:layout_centerInParent="true"
+        app:portion_color="@color/greeen"
+        app:portion_spacing="4sp"
+        app:portion_width="4sp"
+        app:portions_count="8"
+        tools:ignore="MissingClass" />
+
+</RelativeLayout>

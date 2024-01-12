@@ -17,7 +17,6 @@ interface MessageApiService {
         @Query("receiverRoom") receiverRoom: String
     ): Call<ResponseBody>
 
-
     @GET("/message")
     fun getMessages(@Query("senderRoom") senderRoom: String): Call<ArrayList<Message>>
 }

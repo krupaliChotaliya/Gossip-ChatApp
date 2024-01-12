@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.chatsapp.R
+import com.android.chatsapp.model.Story
 import com.android.chatsapp.model.User
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView

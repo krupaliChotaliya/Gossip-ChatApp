@@ -1,7 +1,6 @@
 package com.chatsapp.goosip.model.user;
 
 public class User {
-
     private String uid;
     private String name;
     private String about;
@@ -9,6 +8,14 @@ public class User {
     private String active="1";
     private String status;
     private String lastMessage="No message";
+    private String fcmToken="";
+    public String getFcmToken() {
+        return fcmToken;
+    }
+
+    public void setFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
+    }
 
     public String getLastMessage() {
         return lastMessage;
@@ -18,7 +25,7 @@ public class User {
         this.lastMessage = lastMessage;
     }
 
-    public User(String uid, String name, String about, String profileImg, String active, String status, String lastMessage) {
+    public User(String uid, String name, String about, String profileImg, String active, String status, String lastMessage,String fcmToken) {
         this.uid = uid;
         this.name = name;
         this.about = about;
@@ -26,6 +33,7 @@ public class User {
         this.active = active;
         this.status = status;
         this.lastMessage = lastMessage;
+        this.fcmToken=fcmToken;
     }
 
     public String getStatus() {

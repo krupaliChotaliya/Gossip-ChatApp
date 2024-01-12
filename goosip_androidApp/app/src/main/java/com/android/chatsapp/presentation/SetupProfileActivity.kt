@@ -1,20 +1,29 @@
 package com.android.chatsapp.presentation
 
+import android.Manifest
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.android.chatsapp.R
 import com.android.chatsapp.api.Retrofit
 import com.android.chatsapp.api.UserApiService
 import com.android.chatsapp.databinding.ActivitySetupProfileBinding
+import com.android.chatsapp.helper.Constants
 import com.android.chatsapp.model.User
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.auth.FirebaseAuth
@@ -34,7 +43,7 @@ import kotlin.coroutines.resume
 class SetupProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySetupProfileBinding
-    private var baseUrl = "http://192.168.205.10:8080/"
+    private var baseUrl = Constants.API_BASE_URL
     private lateinit var user: User
     private var CurrentUser: String = FirebaseAuth.getInstance().uid.toString()
     private lateinit var bitmap: Bitmap
@@ -42,11 +51,19 @@ class SetupProfileActivity : AppCompatActivity() {
     private lateinit var loadingbar: ProgressDialog
     private var selectedImageUri: Uri? = null
 
+    private val CAMERA_PERMISSION_CODE = 1001
+    private val APP_SETTINGS_REQUEST_CODE = 123
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySetupProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        binding.cameraIcon.setOnClickListener{
+            checkCameraPermission()
+        }
         //back button
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -123,12 +140,17 @@ class SetupProfileActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.i("onActivityResult","Image is selected")
-        selectedImageUri = data?.data
-        binding.ProfilePicture.setImageURI(selectedImageUri)
-        bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedImageUri)
-        binding.ProfilePicture.setImageBitmap(bitmap)
+        if (requestCode == 10 && resultCode == RESULT_OK && data != null && data.data != null) {
+            Log.i("onActivityResult","Image is selected")
+            selectedImageUri = data?.data
+            if (selectedImageUri!=null){
+                binding.ProfilePicture.setImageURI(selectedImageUri)
+                bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedImageUri)
+                binding.ProfilePicture.setImageBitmap(bitmap)
+            }
+        }
     }
+    
     private fun getUser(currentUser: String) {
         try {
             val retrofit = Retrofit.createRetrofitInstance(baseUrl)
@@ -161,16 +183,6 @@ class SetupProfileActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }
-
-    fun selectImage(view: View) {
-        Log.i("select","image")
-        ImagePicker.with(this)
-            .crop()                            //Crop image(Optional), Check Customization for more option
-            .compress(1024)            //Final image size will be less than 1 MB(Optional)
-            .maxResultSize(
-                1080, 1080
-            ).start()
     }
 
     private suspend fun saveUser(user: User): String? =
@@ -237,7 +249,6 @@ class SetupProfileActivity : AppCompatActivity() {
                             continuation.resume(null)
                         }
                     }
-
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         Log.i("[onFailure]error>>>>>>>>>>>", t.message.toString())
                         continuation.resume(null)
@@ -298,4 +309,80 @@ class SetupProfileActivity : AppCompatActivity() {
             }
         }
     }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            // Permission already granted
+            // Proceed with initializing your camera
+            ImagePicker.with(this)
+                .crop()
+                .compress(1024)
+                .maxResultSize(1080, 1080)
+                .start(10)
+        } else {
+            // Request camera permission
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_PERMISSION_CODE
+            )
+        }
+    }
+
+    // Handle the result of the permission request
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            CAMERA_PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.i("setup Activity","permission granted")
+                    // Permission granted
+                    // Proceed with initializing your camera
+                    ImagePicker.with(this)
+                        .crop()
+                        .compress(1024)
+                        .maxResultSize(1080, 1080)
+                        .start(10)
+                } else {
+                    Log.i("setup Activity","permission denied")
+
+                    if (!shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                        // Explain to the user why the permission is needed and redirect to the app settings
+                        showPermissionExplanationDialog()
+                    } else {
+                        // Inform the user or handle this case accordingly
+                        Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+            }
+        }
+    }
+
+    private fun showPermissionExplanationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Camera Permission Required")
+            .setMessage("This app requires camera permission to function properly. Please grant the permission in the app settings.")
+            .setPositiveButton("Go to Settings") { dialog, which ->
+                navigateToAppSettings()
+            }
+            .setNegativeButton("Cancel") { dialog, which ->
+                // Handle the cancel button click if needed
+            }
+            .show()
+    }
+
+    // Open the app settings
+    private fun navigateToAppSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri: Uri = Uri.fromParts("package", packageName, null)
+        intent.data = uri
+        startActivityForResult(intent, APP_SETTINGS_REQUEST_CODE)
+    }
+
 }

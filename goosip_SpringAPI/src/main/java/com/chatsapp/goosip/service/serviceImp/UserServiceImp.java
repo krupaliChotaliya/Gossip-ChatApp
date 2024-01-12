@@ -16,6 +16,10 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class UserServiceImp implements UserService {
+    private List<User> cachedUsers;
+    private long lastFetchTime;
+    private static final long CACHE_EXPIRATION_TIME_MS = 60000; // Cache expiration time in milliseconds (1 minute)
+
     @Override
     public ResponseEntity<User> addUser(User user) throws InterruptedException, ExecutionException {
         Firestore firestore = FirestoreClient.getFirestore();
@@ -70,9 +74,9 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<User> getAllUser(String currentUser) {
+    public List<User> getAllUserExceptCurrentUser(String currentUser) {
         try {
-            List<User> users = new ArrayList<>();
+            List<User> users;
             Firestore firestore = FirestoreClient.getFirestore();
             users = firestore.collection("users").get().get().toObjects(User.class);
             Iterator<User> iterator = users.iterator();
@@ -97,7 +101,7 @@ public class UserServiceImp implements UserService {
             System.out.println("[uploadFile] started uploading file to server");
             String fileName = multipartFile.getOriginalFilename();                        // to get original file name
             File file = UploadingImg.convertToFile(multipartFile, fileName);                      // to convert multipartFile to File
-            String URL = UploadingImg.uploadFile(file, uid);                                   // to get uploaded file link
+            String URL = UploadingImg.uploadFile(file, uid,"images/");                                   // to get uploaded file link
             return ResponseEntity.ok(URL);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image" + e);
@@ -152,7 +156,6 @@ public class UserServiceImp implements UserService {
         return false;
     }
 
-
     @Override
     public ResponseEntity<String> UpdateField(String uid,String fieldName,String value) {
         try{
@@ -180,6 +183,27 @@ public class UserServiceImp implements UserService {
             System.out.println("[updateStatus]Exception:"+e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+    }
+
+    @Override
+    public List<User> getAllUser() {
+        if (cachedUsers != null && System.currentTimeMillis() - lastFetchTime < CACHE_EXPIRATION_TIME_MS) {
+            return cachedUsers;
+        }
+        try {
+            Firestore firestore = FirestoreClient.getFirestore();
+            QuerySnapshot querySnapshot = firestore.collection("users").get().get();
+            List<User> users = new ArrayList<>();
+            for (QueryDocumentSnapshot document : querySnapshot) {
+                users.add(document.toObject(User.class));
+            }
+            cachedUsers = users;
+            lastFetchTime = System.currentTimeMillis();
+            return users;
+        } catch (Exception e) {
+            System.out.printf("Exception[getAllUser]: " + e);
+        }
+        return null;
     }
 
 }

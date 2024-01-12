@@ -21,8 +21,10 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
 //  firabase
-    implementation ("com.google.firebase:firebase-admin:9.2.0")
     implementation("io.perfmark:perfmark-api:0.25.0")
+
+    // Replace with the correct version
+    implementation("com.google.firebase:firebase-admin:8.0.0")
 
 }
 

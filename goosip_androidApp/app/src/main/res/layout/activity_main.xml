@@ -12,13 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <androidx.appcompat.widget.Toolbar
+            app:titleTextColor="@color/white"
             app:title="@string/app_name"
             android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="4dp"
+            android:background="@color/my_light_primary"
+            android:elevation="4sp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             />
 
@@ -37,6 +39,7 @@
             app:tabMode="fixed"/>
 
         <androidx.viewpager2.widget.ViewPager2
+            android:background="@drawable/bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="null"

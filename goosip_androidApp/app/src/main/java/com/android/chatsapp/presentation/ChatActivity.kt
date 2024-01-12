@@ -1,12 +1,16 @@
 package com.android.chatsapp.presentation
 
+import android.Manifest
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -16,6 +20,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.chatsapp.R
@@ -24,6 +30,7 @@ import com.android.chatsapp.api.MessageApiService
 import com.android.chatsapp.api.Retrofit
 import com.android.chatsapp.api.UserApiService
 import com.android.chatsapp.databinding.ActivityChatBinding
+import com.android.chatsapp.helper.Constants
 import com.android.chatsapp.model.Message
 import com.android.chatsapp.model.User
 import com.android.chatsapp.viewmodel.UserViewModel
@@ -61,7 +68,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var senderRoom: String
     private lateinit var receiverRoom: String
     private var senderUid: String = FirebaseAuth.getInstance().uid.toString()
-    private var baseUrl = "http://192.168.205.10:8080/"
+    private var baseUrl = Constants.API_BASE_URL
     private lateinit var bitmap: Bitmap
     private val retrofit = Retrofit.createRetrofitInstance(baseUrl)
     private lateinit var loadingbar: ProgressDialog
@@ -79,6 +86,10 @@ class ChatActivity : AppCompatActivity() {
     private val serverKey =
         "key=" + "AAAAy5GovvM:APA91bFNHPrm2IjDM0zv5Zvn9PStPfAnIjp58w1kGnaIHFlVmxQft82T85q6CoVNqqy9eUQLKfdXXTvC6W7E7_4moGwlC_r56zTCqCB6F-cZ_sSKoI3neLgZ4kWbiaTdtZB4QfpmLtPK"
     private val contentType = "application/json"
+    private var token = ""
+
+    private val CAMERA_PERMISSION_CODE = 1001
+    private val APP_SETTINGS_REQUEST_CODE = 123
 
     private val requestQueue: RequestQueue by lazy {
         Volley.newRequestQueue(this.applicationContext)
@@ -86,7 +97,6 @@ class ChatActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
-
         try {
             super.onCreate(savedInstanceState)
             binding = ActivityChatBinding.inflate(layoutInflater)
@@ -95,6 +105,17 @@ class ChatActivity : AppCompatActivity() {
             //fcm
             FirebaseMessaging.getInstance().subscribeToTopic("/topics/Enter_your_topic_name")
 
+            //fcm get Token
+            FirebaseMessaging.getInstance().token
+                .addOnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w("Token", "getInstanceId failed", task.exception)
+                        return@addOnCompleteListener
+                    }
+                    Log.w("Token", task.result)
+                    token = task.result
+                    updateField("fcmToken", token)
+                }
 
             //binding viewmodel for status
             binding.user = itemViewModel
@@ -108,7 +129,7 @@ class ChatActivity : AppCompatActivity() {
                 Log.i("user", receiver.name)
                 binding.username.text = receiver.name
 
-                //to get real time data changes for status update
+                //update user Status by getting real time data
                 collection.document(receiver.uid)
                     .addSnapshotListener { snapshot, e ->
                         if (e != null) {
@@ -124,7 +145,7 @@ class ChatActivity : AppCompatActivity() {
                         }
                     }
                 getRecevierStatus()
-                updateStatus("status", "online")
+                updateField("status", "online")
 
                 Picasso.get().load(receiver.profileImg).into(binding.profileImg)
                 //for back button
@@ -181,9 +202,9 @@ class ChatActivity : AppCompatActivity() {
                         after: Int
                     ) {
                         if (s.toString().trim().isEmpty()) {
-                            updateStatus("status", "online")
+                            updateField("status", "online")
                         } else {
-                            updateStatus("status", "Typing")
+                            updateField("status", "Typing")
                         }
                     }
 
@@ -194,29 +215,33 @@ class ChatActivity : AppCompatActivity() {
                         count: Int
                     ) {
                         if (s.toString().trim().isEmpty()) {
-                            updateStatus("status", "online")
+                            updateField("status", "online")
                         } else {
-                            updateStatus("status", "Typing")
+                            updateField("status", "Typing")
                         }
                     }
 
                     override fun afterTextChanged(s: Editable?) {
                         if (s.toString().trim().isEmpty()) {
-                            updateStatus("status", "online")
+                            updateField("status", "online")
                         } else {
-                            updateStatus("status", "Typing")
+                            updateField("status", "Typing")
                         }
                     }
                 })
 
 
                 binding.sendBtn.setOnClickListener(View.OnClickListener {
-                    updateStatus("status", "typing")
+                    updateField("status", "typing")
                     val messagetxt: String = binding.messageBox.text.toString()
                     Log.i("messageBox", messagetxt)
-                    if(messagetxt.trim() == ""){
-                        Toast.makeText(this@ChatActivity, "Please, Enter Message", Toast.LENGTH_LONG).show()
-                    }else{
+                    if (messagetxt.trim() == "") {
+                        Toast.makeText(
+                            this@ChatActivity,
+                            "Please, Enter Message",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
                         val message =
                             Message(messagetxt, senderUid, 0, System.currentTimeMillis(), "text")
                         //api calling
@@ -225,33 +250,29 @@ class ChatActivity : AppCompatActivity() {
 
                     //fcm
                     if (!TextUtils.isEmpty(messagetxt)) {
-                        val topic =
-                            "/topics/Enter_your_topic_name" //topic has to match what the receiver subscribed to
-
+                        val receiverToken = receiver.fcmToken
                         val notification = JSONObject()
                         val notifcationBody = JSONObject()
-
                         try {
                             notifcationBody.put("title", "gossip")
                             notifcationBody.put(
                                 "message",
-                                messagetxt
-                            )   //Enter your notification message
-                            notification.put("to", topic)
+                                "${receiver.name}: $messagetxt"
+                            )
+                            notification.put("to", receiverToken)
                             notification.put("data", notifcationBody)
                             Log.e("TAG", "try")
                         } catch (e: JSONException) {
                             Log.e("TAG", "onCreate: " + e.message)
                         }
-                        sendNotification(notification)
+                        if (receiverToken != null) {
+                            sendNotification(notification, receiverToken)
+                        }
                     }
                 })
                 binding.attachbtn.setOnClickListener(View.OnClickListener {
-                    updateStatus("status", "typing")
-                    val intent = Intent()
-                    intent.action = Intent.ACTION_GET_CONTENT
-                    intent.type = "image/*"
-                    startActivityForResult(Intent.createChooser((intent), "Select Image"), 10)
+                    //check camera permission
+                    checkCameraPermission()
                 })
             }
         } catch (e: Exception) {
@@ -277,7 +298,7 @@ class ChatActivity : AppCompatActivity() {
                             //update last message to user table
                             val last_message = messages[messages.size - 1].message
                             Log.i("lastMessage", last_message)
-                            updateStatus("lastMessage", last_message)
+                            updateField("lastMessage", last_message)
 
                             adapter = MessageAdapter(applicationContext, messages)
                             binding.messageRecycleView.adapter = adapter
@@ -290,7 +311,6 @@ class ChatActivity : AppCompatActivity() {
                         Log.i("error[getMessages]", response.message())
                     }
                 }
-
                 override fun onFailure(call: Call<ArrayList<Message>>, t: Throwable) {
                     Log.i("error", t.toString())
                 }
@@ -324,7 +344,6 @@ class ChatActivity : AppCompatActivity() {
                         Log.i("error", response.message())
                     }
                 }
-
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Log.i("error", t.toString())
                 }
@@ -389,7 +408,6 @@ class ChatActivity : AppCompatActivity() {
                             continuation.resume(null)
                         }
                     }
-
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         Log.i("[onFailure]error>>>>>>>>>>>", t.message.toString())
                         continuation.resume(null)
@@ -402,12 +420,12 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    fun updateStatus(fieldName: String, value: String) {
+    fun updateField(fieldName: String, value: String) {
         try {
             val retrofit = Retrofit.createRetrofitInstance(baseUrl)
             val apiService = retrofit.create(UserApiService::class.java)
             val call: Call<ResponseBody> =
-                apiService.updateStatus(userId, fieldName, value)
+                apiService.updateField(userId, fieldName, value)
             call.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(
                     call: Call<ResponseBody>, response: Response<ResponseBody>
@@ -423,7 +441,6 @@ class ChatActivity : AppCompatActivity() {
                         Log.i("error", response.message())
                     }
                 }
-
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Log.i("error", t.toString())
                 }
@@ -456,7 +473,6 @@ class ChatActivity : AppCompatActivity() {
                         Log.i("error", response.message())
                     }
                 }
-
                 override fun onFailure(call: Call<User>, t: Throwable) {
                     Log.i("error", t.toString())
                 }
@@ -474,12 +490,10 @@ class ChatActivity : AppCompatActivity() {
             .joinToString("")
     }
 
-
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
-        //TODO:last msg
-//        val lastMessage = messages.last()
-//        Log.i("lastmsg",lastMessage.message)
+        updateField("status", "last seen " + getCurrentTime())
         getRecevierStatus()
     }
 
@@ -493,24 +507,24 @@ class ChatActivity : AppCompatActivity() {
     //back btn
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onSupportNavigateUp(): Boolean {
-        updateStatus("status", "last seen " + getCurrentTime())
+        updateField("status", "last seen " + getCurrentTime())
         finish()
         return super.onSupportNavigateUp()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBackPressed() {
-        updateStatus("status", "last seen " + getCurrentTime())
+        updateField("status", "last seen " + getCurrentTime())
         finish()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onPause() {
-        updateStatus("status", "last seen " + getCurrentTime())
+        updateField("status", "last seen " + getCurrentTime())
         super.onPause()
     }
 
-    private fun sendNotification(notification: JSONObject) {
+    private fun sendNotification(notification: JSONObject, receiverToken: String) {
         Log.e("TAG", "sendNotification")
         val jsonObjectRequest = object : JsonObjectRequest(FCM_API, notification,
             com.android.volley.Response.Listener { response ->
@@ -521,13 +535,92 @@ class ChatActivity : AppCompatActivity() {
                 Toast.makeText(this@ChatActivity, "Request error", Toast.LENGTH_LONG).show()
                 Log.i("TAG", "onErrorResponse: Didn't work")
             }) {
+
             override fun getHeaders(): Map<String, String> {
                 val params = HashMap<String, String>()
                 params["Authorization"] = serverKey
                 params["Content-Type"] = contentType
                 return params
             }
+
+            override fun getParams(): Map<String, String> {
+                // Set the FCM token of the specific device
+                val params = HashMap<String, String>()
+                params["to"] = receiverToken
+                return params
+            }
         }
         requestQueue.add(jsonObjectRequest)
     }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            // Permission already granted
+            // Proceed with initializing your camera
+            updateField("status", "typing")
+            val intent = Intent()
+            intent.action = Intent.ACTION_GET_CONTENT
+            intent.type = "image/*"
+            startActivityForResult(Intent.createChooser((intent), "Select Image"), 10)
+        } else {
+            // Request camera permission
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_PERMISSION_CODE
+            )
+        }
+    }
+
+    // Handle the result of the permission request
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            CAMERA_PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.i("setup Activity","permission granted")
+                    // Permission granted
+                    // Proceed with initializing your camera
+                } else {
+                    Log.i("setup Activity","permission denied")
+
+                    if (!shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                        // Explain to the user why the permission is needed and redirect to the app settings
+                        showPermissionExplanationDialog()
+                    } else {
+                        // Inform the user or handle this case accordingly
+                        Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+            }
+        }
+    }
+
+    private fun showPermissionExplanationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Camera Permission Required")
+            .setMessage("This app requires camera permission to function properly. Please grant the permission in the app settings.")
+            .setPositiveButton("Go to Settings") { dialog, which ->
+                navigateToAppSettings()
+            }
+            .setNegativeButton("Cancel") { dialog, which ->
+                // Handle the cancel button click if needed
+            }
+            .show()
+    }
+
+    // Open the app settings
+    private fun navigateToAppSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri: Uri = Uri.fromParts("package", packageName, null)
+        intent.data = uri
+        startActivityForResult(intent, APP_SETTINGS_REQUEST_CODE)
+    }
+
 }

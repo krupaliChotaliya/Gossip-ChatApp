@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/upload", method = { RequestMethod.GET, RequestMethod.POST }, produces = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> UploadImg(@RequestParam("file") MultipartFile file, @RequestParam("userId") String UserId) throws Exception {
+    public ResponseEntity<String> UploadImg(@RequestParam("file") MultipartFile file, @RequestParam("userId") String UserId) {
         try {
             return  userService.uploadFile(file, UserId);
         } catch (Exception e) {
@@ -45,8 +45,13 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<User> getAllUser(@RequestParam String currentUser) {
-        return userService.getAllUser(currentUser);
+    public List<User> getAllUserExceptCurrentUser(@RequestParam String currentUser) {
+        return userService.getAllUserExceptCurrentUser(currentUser);
+    }
+
+    @GetMapping("/getusers")
+    public List<User> getAllUser() {
+        return userService.getAllUser();
     }
 
     @PutMapping("/user")
@@ -62,7 +67,6 @@ public class UserController {
     public Boolean logout(@RequestParam String documentId) throws InterruptedException {
         return userService.logout(documentId);
     }
-
     @PutMapping("/userField")
     public ResponseEntity<String> UpdateField(@RequestParam String uid,@RequestParam String fieldName, @RequestParam String value) {
         System.out.println("enter[UpdateStatus]");
@@ -84,4 +88,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+
 }
