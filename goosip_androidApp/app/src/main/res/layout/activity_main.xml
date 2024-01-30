@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/my_light_primary"
-            android:elevation="4sp"
+            android:elevation="@dimen/_4sdp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             />
 
@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/my_light_primary"
-            android:elevation="12sp"
+            android:elevation="@dimen/_12sdp"
             app:tabIndicatorColor="@color/white"
             app:tabSelectedTextColor="@color/white"
             app:tabMaxWidth="0sp"

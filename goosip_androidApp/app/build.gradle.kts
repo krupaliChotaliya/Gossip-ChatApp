@@ -131,8 +131,10 @@ dependencies {
     //Image picker
     implementation("com.github.dhaval2404:imagepicker:2.1")
     //storyview
-
     implementation ("com.github.shts:StoriesProgressView:3.0.0")
+    //Responsive layout
+    implementation ("com.intuit.sdp:sdp-android:1.1.0")
+
 }
 kapt {
     correctErrorTypes = true

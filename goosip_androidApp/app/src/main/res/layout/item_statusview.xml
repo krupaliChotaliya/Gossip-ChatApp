@@ -7,27 +7,27 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/receiverStatus"
-        android:layout_width="68sp"
-        android:layout_height="68sp"
+        android:layout_width="@dimen/_55sdp"
+        android:layout_height="@dimen/_55sdp"
         android:layout_centerInParent="true"
-        android:padding="6sp"
+        android:padding="@dimen/_6sdp"
         android:src="@mipmap/ic_launcher" />
 
     <com.devlomi.circularstatusview.CircularStatusView
         android:id="@+id/circular_status_view"
-        android:layout_width="68sp"
-        android:layout_height="68sp"
+        android:layout_width="@dimen/_55sdp"
+        android:layout_height="@dimen/_55sdp"
         android:layout_centerInParent="true"
         app:portion_color="@color/greeen"
-        app:portion_spacing="4sp"
-        app:portion_width="4sp"
+        app:portion_spacing="@dimen/_4sdp"
+        app:portion_width="@dimen/_4sdp"
        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="60sp"
+        android:layout_marginLeft="@dimen/_60sdp"
         android:orientation="vertical">
 
         <TextView
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="User name"
-            android:textSize="18sp"
+            android:textSize="@dimen/_15sdp"
             android:textStyle="bold"
             android:textColor="@color/black" />
     </LinearLayout>

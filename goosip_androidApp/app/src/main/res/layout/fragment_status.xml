@@ -10,21 +10,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/upload"
-        android:layout_marginLeft="20sp"
-        android:layout_marginBottom="5sp"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
         android:orientation="horizontal">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_marginTop="10sp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10sp"
+            android:layout_marginLeft="@dimen/_5sdp"
             tools:context=".presentation.ProfileImagePicker">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ProfilePicture"
-                android:layout_width="60sp"
-                android:layout_height="60sp"
+                android:layout_width="@dimen/_55sdp"
+                android:layout_height="@dimen/_55sdp"
                 android:background="#115930"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/circular"
@@ -36,17 +36,17 @@
             android:id="@+id/StoryUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Your Story"
             android:layout_gravity="center"
-            android:textSize="18sp"
-            android:layout_marginLeft="14sp"
-            android:textStyle="bold"
-            android:textColor="@color/black" />
+            android:layout_marginLeft="@dimen/_14sdp"
+            android:text="Add Your Story"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_16sdp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginLeft="23sp"
+        android:layout_marginLeft="@dimen/_23sdp"
         android:layout_below="@+id/upload"
         android:id="@+id/Recycleviewstatusview"
         android:layout_width="match_parent"

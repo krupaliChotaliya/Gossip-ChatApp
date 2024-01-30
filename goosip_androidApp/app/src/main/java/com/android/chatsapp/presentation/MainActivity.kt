@@ -1,6 +1,7 @@
 package com.android.chatsapp.presentation
 
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -15,7 +16,6 @@ import com.android.chatsapp.adapters.ViewPagerAdapter
 import com.android.chatsapp.api.Retrofit
 import com.android.chatsapp.api.UserApiService
 import com.android.chatsapp.databinding.ActivityMainBinding
-import com.android.chatsapp.fragments.CallsFragment
 import com.android.chatsapp.fragments.ChatsFragment
 import com.android.chatsapp.fragments.StatusFragment
 import com.android.chatsapp.helper.Constants
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var binding: ActivityMainBinding
     private var baseUrl = Constants.API_BASE_URL
-    private var userId = FirebaseAuth.getInstance().currentUser!!.uid
+    private var userId: String = ""
     private var token = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,43 +40,15 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(findViewById(R.id.my_toolbar))
-
-        //fcm -Token generation
-        FirebaseMessaging.getInstance().token
-            .addOnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    Log.w("Token", "getInstanceId failed", task.exception)
-                    return@addOnCompleteListener
-                }
-                Log.w("Token",task.result)
-                token = task.result
-                updateField("fcmToken", token)
-            }
-
-
-        //check whether user is logged in or not
         firebaseAuth = FirebaseAuth.getInstance()
-        if (firebaseAuth.currentUser == null) {
-            Log.i("not login", firebaseAuth.currentUser.toString())
-            Toast.makeText(
-                this,
-                "You are not logged In",
-                Toast.LENGTH_SHORT
-            ).show()
-            Intent(
-                this,
-                PhoneNoVerificationActivity::class.java
-            )
-            startActivity(intent)
-            finish()
-            return
-        }
+
         val viewPager: ViewPager2 = findViewById(R.id.viewPager)
-        val fragmentTitles = listOf("Chats", "Status", "Calls")
+//        val fragmentTitles = listOf("Chats", "Status", "Calls")
+        val fragmentTitles = listOf("Chats", "Status")
         val fragments: ArrayList<Fragment> = arrayListOf(
             ChatsFragment(),
             StatusFragment(),
-            CallsFragment()
+//            CallsFragment()
         )
         val adapter = ViewPagerAdapter(fragments, fragmentTitles, supportFragmentManager, lifecycle)
         viewPager.adapter = adapter
@@ -84,6 +56,41 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tablayout, viewPager) { tab, position ->
             tab.text = adapter.getTitle(position)
         }.attach()
+
+        // Customize the color of the overflow menu icon
+        val overflowIcon = binding.myToolbar.overflowIcon
+        overflowIcon?.setColorFilter(resources.getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP)
+
+
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            userId = currentUser.uid
+            //fcm -Token generation
+            FirebaseMessaging.getInstance().token
+                .addOnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w("Token", "getInstanceId failed", task.exception)
+                        return@addOnCompleteListener
+                    }
+                    Log.w("Token", task.result)
+                    token = task.result
+                    updateField("fcmToken", token)
+                }
+
+        }else{
+            Toast.makeText(
+                this,
+                "You are not logged In",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            val intent = Intent(
+                this,
+                PhoneNoVerificationActivity::class.java
+            )
+            startActivity(intent)
+            finishAffinity()
+        }
     }
 
 
@@ -99,6 +106,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this@MainActivity, SetupProfileActivity::class.java)
                 startActivity(intent)
             }
+
             R.id.logout -> {
                 firebaseAuth.signOut()
                 Toast.makeText(

@@ -1,5 +1,6 @@
 package com.android.chatsapp.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -25,8 +26,15 @@ class ChatsFragment : Fragment(),UserAdapter.RecycleViewEvent   {
     private lateinit var binding: FragmentChatsBinding
     private  lateinit var userList: ArrayList<User>
     private var baseUrl = Constants.API_BASE_URL
+    private lateinit var applicationContext: Context
     private val apiService = Retrofit.createRetrofitInstance(baseUrl).create(UserApiService::class.java)
     private var CurrentUser: String = FirebaseAuth.getInstance().uid.toString()
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        applicationContext = context.applicationContext
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +42,7 @@ class ChatsFragment : Fragment(),UserAdapter.RecycleViewEvent   {
     ): View? {
         Log.i("currentUser",CurrentUser)
         binding = FragmentChatsBinding.inflate(layoutInflater,container, false)
-        getUsers()
+//        getUsers()
         return binding.root
     }
 
@@ -73,11 +81,12 @@ class ChatsFragment : Fragment(),UserAdapter.RecycleViewEvent   {
             override fun onResponse(call: Call<ArrayList<User>>, response: Response<ArrayList<User>>) {
                 if (response.isSuccessful) {
                     userList= response.body()!!
-                    if (userList != null) {
+                    if (userList != null && userList.size > 0) {
                         Log.i("[getUsers]Success", userList.toString())
                         //bind data with adapter
                         binding.chatsRecycleView.layoutManager = LinearLayoutManager(activity)
-                        val adapter = UserAdapter(userList,activity!!.applicationContext,this@ChatsFragment)
+//                        val adapter = UserAdapter(userList,activity.applicationContext,this@ChatsFragment)
+                        val adapter = UserAdapter(userList,applicationContext,this@ChatsFragment)
                         binding.chatsRecycleView.adapter = adapter
                         adapter.notifyDataSetChanged()
                     }

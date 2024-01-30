@@ -34,14 +34,14 @@ class testNote : AppCompatActivity() {
 
         binding.submit.setOnClickListener {
             if (!TextUtils.isEmpty(binding.msg.text)) {
-                val topic = "/topics/Enter_your_topic_name" //topic has to match what the receiver subscribed to
+                val topic = "/topics/Enter_your_topic_name"
 
                 val notification = JSONObject()
                 val notifcationBody = JSONObject()
 
                 try {
                     notifcationBody.put("title", "Enter_title")
-                    notifcationBody.put("message", binding.msg.text)   //Enter your notification message
+                    notifcationBody.put("message", binding.msg.text)
                     notification.put("to", topic)
                     notification.put("data", notifcationBody)
                     Log.e("TAG", "try")

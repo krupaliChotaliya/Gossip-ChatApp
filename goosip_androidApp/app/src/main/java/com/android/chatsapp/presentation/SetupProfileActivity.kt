@@ -285,6 +285,9 @@ class SetupProfileActivity : AppCompatActivity() {
                                     "Your profile is updated successfully!!",
                                     Toast.LENGTH_SHORT
                                 ).show()
+                                val intent =
+                                    Intent(this@SetupProfileActivity, MainActivity::class.java)
+                                startActivity(intent)
                             }
                             Log.i("success", "Partial updated User" + result.toString())
                             Log.i("response body", response.toString())
@@ -356,7 +359,7 @@ class SetupProfileActivity : AppCompatActivity() {
                         showPermissionExplanationDialog()
                     } else {
                         // Inform the user or handle this case accordingly
-                        Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
                     }
 
                 }

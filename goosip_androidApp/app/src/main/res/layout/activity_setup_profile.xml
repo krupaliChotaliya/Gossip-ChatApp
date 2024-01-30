@@ -20,13 +20,13 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_marginTop="10sp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_height="wrap_content"
         tools:context=".presentation.ProfileImagePicker">
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ProfilePicture"
-            android:layout_width="250sp"
-            android:layout_height="250sp"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_200sdp"
             android:background="@color/colorDivider"
             app:shapeAppearanceOverlay="@style/circular"
             app:layout_constraintEnd_toEndOf="parent"
@@ -38,8 +38,8 @@
             android:id="@+id/cameraIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20sp"
-            android:layout_marginBottom="20sp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
             app:shapeAppearanceOverlay="@style/circular"
             app:layout_constraintBottom_toBottomOf="@+id/ProfilePicture"
             app:layout_constraintEnd_toEndOf="@+id/ProfilePicture"
@@ -52,37 +52,39 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20sp"
-        android:layout_marginBottom="10sp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:text="Profile Info"
-        android:textSize="20sp"
+        android:textSize="@dimen/_20sdp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        tools:layout_editor_absoluteX="114sp" />
+        tools:layout_editor_absoluteX="@dimen/_114sdp" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginHorizontal="30sp"
+        android:layout_marginHorizontal="@dimen/_30sdp"
         android:gravity="center"
+        android:textSize="@dimen/_10sdp"
         android:text="Please set your Profile Details"
-        tools:layout_editor_absoluteX="114sp"
-        tools:layout_editor_absoluteY="225sp" />
+        tools:layout_editor_absoluteX="@dimen/_104sdp"
+        tools:layout_editor_absoluteY="@dimen/_220sdp" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20sp"
-        android:layout_marginVertical="30sp"
+        android:layout_margin="@dimen/_20sdp"
+        android:layout_marginVertical="@dimen/_20sdp"
         app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="10sp">
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardElevation="@dimen/_7sdp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="20sp"
+            android:layout_margin="@dimen/_20sdp"
             android:orientation="vertical">
             <EditText
                 android:id="@+id/username"
@@ -90,14 +92,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="10sp"
+                android:layout_margin="@dimen/_10sdp"
                 android:textColorHint="#746B6B"
-                android:layout_marginHorizontal="16sp"
+                android:layout_marginHorizontal="@dimen/_16sdp"
                 android:background="@drawable/edittext"
                 android:hint="Type your name"
                 android:inputType="textPersonName"
-                android:minHeight="48sp"
-                android:padding="10sp" />
+                android:minHeight="@dimen/_20sdp"
+                android:padding="@dimen/_10sdp" />
 
             <EditText
                 android:id="@+id/about"
@@ -105,20 +107,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="10sp"
+                android:layout_margin="@dimen/_10sdp"
                 android:textColorHint="#746B6B"
-                android:layout_marginHorizontal="16sp"
+                android:layout_marginHorizontal="@dimen/_16sdp"
                 android:background="@drawable/edittext"
                 android:hint="Tell something about yourself"
                 android:inputType="text"
-                android:minHeight="48sp"
-                android:padding="10sp" />
+                android:minHeight="@dimen/_20sdp"
+                android:padding="@dimen/_10sdp" />
             <Button
                 android:textColor="@color/white"
                 android:id="@+id/btn_updateProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10sp"
+                android:layout_margin="@dimen/_10sdp"
                 android:background="@drawable/textbox_outline"
                 android:text="UPDATE PROFILE"></Button>
 
