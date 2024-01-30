@@ -41,6 +41,7 @@ public class MessageServiceImp implements MessageService {
 
     public ResponseEntity<ArrayList<Message>> getMessages(String senderRoom) {
         ArrayList<Message> messages = new ArrayList<>();
+        Message updateMsg=new Message();
         try {
             Firestore firestore = FirestoreClient.getFirestore();
             CollectionReference chatsCollection = firestore.collection("chats");
@@ -57,6 +58,17 @@ public class MessageServiceImp implements MessageService {
             }
 
             System.out.println(messages);
+
+            int lengthOfArray = messages.size();
+            System.out.println("Length of ArrayList: " + lengthOfArray);
+            updateMsg= messages.get(lengthOfArray - 1);
+            System.out.println(updateMsg.getMessage());
+            if (updateMsg.getType().equals("file")){
+                //last Message= photo
+            }else{
+                //last Message=text msg
+            }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
