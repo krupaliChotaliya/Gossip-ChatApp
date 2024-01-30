@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.android.chatsapp.R
 import com.android.chatsapp.presentation.ChatActivity
+import com.android.chatsapp.presentation.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import java.util.Random
@@ -33,9 +34,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        val intent = Intent(this, ChatActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationID = Random().nextInt(3000)
+        Log.i("notification-data",message.to.toString()+message.data)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             setupChannels(notificationManager)
@@ -47,15 +49,15 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val largeIcon = BitmapFactory.decodeResource(
-            resources,
-            R.drawable.avatar
-        )
+//        val largeIcon = BitmapFactory.decodeResource(
+//            resources,
+//            R.mipmap.ic_launcher_foreground
+//        )
 
         val notificationSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-            .setSmallIcon(R.drawable.avatar)
-            .setLargeIcon(largeIcon)
+            .setSmallIcon(R.drawable.app_icon)
+//            .setLargeIcon(largeIcon)
             .setContentTitle(message?.data?.get("title"))
             .setContentText(message?.data?.get("message"))
             .setAutoCancel(true)

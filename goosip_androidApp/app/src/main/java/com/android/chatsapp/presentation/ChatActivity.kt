@@ -2,6 +2,7 @@ package com.android.chatsapp.presentation
 
 import android.Manifest
 import android.app.AlertDialog
+import android.app.PendingIntent
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -11,9 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -54,12 +53,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
-import java.time.LocalTime
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import kotlin.coroutines.resume
 import kotlin.random.Random
-
 
 class ChatActivity : AppCompatActivity() {
 
@@ -79,7 +77,6 @@ class ChatActivity : AppCompatActivity() {
     private val firestore = FirebaseFirestore.getInstance()
     private val collection = firestore.collection("users")
     private lateinit var messages: ArrayList<Message>
-
 
     //TODO: FCM
     private val FCM_API = "https://fcm.googleapis.com/fcm/send"
@@ -102,6 +99,8 @@ class ChatActivity : AppCompatActivity() {
             binding = ActivityChatBinding.inflate(layoutInflater)
             setContentView(binding.root)
             FirebaseApp.initializeApp(this)
+            initializeMessages()
+
             //fcm
             FirebaseMessaging.getInstance().subscribeToTopic("/topics/Enter_your_topic_name")
 
@@ -194,51 +193,51 @@ class ChatActivity : AppCompatActivity() {
                 }
 
 
-                binding.messageBox.addTextChangedListener(object : TextWatcher {
-                    override fun beforeTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
-                        if (s.toString().trim().isEmpty()) {
-                            updateField("status", "online")
-                        } else {
-                            updateField("status", "Typing")
-                        }
-                    }
-
-                    override fun onTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        before: Int,
-                        count: Int
-                    ) {
-                        if (s.toString().trim().isEmpty()) {
-                            updateField("status", "online")
-                        } else {
-                            updateField("status", "Typing")
-                        }
-                    }
-
-                    override fun afterTextChanged(s: Editable?) {
-                        if (s.toString().trim().isEmpty()) {
-                            updateField("status", "online")
-                        } else {
-                            updateField("status", "Typing")
-                        }
-                    }
-                })
+//                binding.messageBox.addTextChangedListener(object : TextWatcher {
+//                    override fun beforeTextChanged(
+//                        s: CharSequence?,
+//                        start: Int,
+//                        count: Int,
+//                        after: Int
+//                    ) {
+//                        if (s.toString().trim().isEmpty()) {
+//                            updateField("status", "online")
+//                        } else {
+//                            updateField("status", "Typing")
+//                        }
+//                    }
+//
+//                    override fun onTextChanged(
+//                        s: CharSequence?,
+//                        start: Int,
+//                        before: Int,
+//                        count: Int
+//                    ) {
+//                        if (s.toString().trim().isEmpty()) {
+//                            updateField("status", "online")
+//                        } else {
+//                            updateField("status", "Typing")
+//                        }
+//                    }
+//
+//                    override fun afterTextChanged(s: Editable?) {
+//                        if (s.toString().trim().isEmpty()) {
+//                            updateField("status", "online")
+//                        } else {
+//                            updateField("status", "Typing")
+//                        }
+//                    }
+//                })
 
 
                 binding.sendBtn.setOnClickListener(View.OnClickListener {
-                    updateField("status", "typing")
+//                    updateField("status", "typing")
                     val messagetxt: String = binding.messageBox.text.toString()
                     Log.i("messageBox", messagetxt)
                     if (messagetxt.trim() == "") {
                         Toast.makeText(
                             this@ChatActivity,
-                            "Please, Enter Message",
+                            "Please, Enter a Message",
                             Toast.LENGTH_LONG
                         ).show()
                     } else {
@@ -279,6 +278,12 @@ class ChatActivity : AppCompatActivity() {
             Log.i("OnCreate", e.message.toString())
         }
     }
+
+
+    private fun initializeMessages() {
+        messages = ArrayList()
+    }
+
 
     private fun getMessages(senderUid: String) {
         try {
@@ -368,7 +373,7 @@ class ChatActivity : AppCompatActivity() {
                 if (profilePicUrl != null) {
                     Log.i("uploaded", "success")
                     val message =
-                        Message(profilePicUrl.toString(), senderUid, 0, date.time, "file")
+                        Message(profilePicUrl.toString(), senderUid, 0, System.currentTimeMillis(), "file")
                     saveMessage(message)
                 } else {
                     Log.i("error", "not uploaded")
@@ -493,14 +498,13 @@ class ChatActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
-        updateField("status", "last seen " + getCurrentTime())
         getRecevierStatus()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun getCurrentTime(): String? {
-        val currentTime = LocalTime.now()
-        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        val currentTime = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("MMM d, h:mm a")
         return currentTime.format(formatter)
     }
 
@@ -526,6 +530,7 @@ class ChatActivity : AppCompatActivity() {
 
     private fun sendNotification(notification: JSONObject, receiverToken: String) {
         Log.e("TAG", "sendNotification")
+
         val jsonObjectRequest = object : JsonObjectRequest(FCM_API, notification,
             com.android.volley.Response.Listener { response ->
                 Log.i("TAG", "onResponse: $response")
@@ -558,7 +563,7 @@ class ChatActivity : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             // Permission already granted
             // Proceed with initializing your camera
-            updateField("status", "typing")
+//            updateField("status", "typing")
             val intent = Intent()
             intent.action = Intent.ACTION_GET_CONTENT
             intent.type = "image/*"
@@ -594,7 +599,7 @@ class ChatActivity : AppCompatActivity() {
                         showPermissionExplanationDialog()
                     } else {
                         // Inform the user or handle this case accordingly
-                        Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
                     }
 
                 }

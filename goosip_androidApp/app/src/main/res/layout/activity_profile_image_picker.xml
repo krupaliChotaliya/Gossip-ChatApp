@@ -9,8 +9,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageView2"
-        android:layout_width="300sp"
-        android:layout_height="300sp"
+        android:layout_width="@dimen/_300sdp"
+        android:layout_height="@dimen/_300sdp"
         android:background="@color/colorDivider"
         app:shapeAppearanceOverlay="@style/circular"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,8 +22,8 @@
         android:id="@+id/floatingActionButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20sp"
-        android:layout_marginBottom="20sp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
         android:clickable="true"
         app:shapeAppearanceOverlay="@style/circular"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"

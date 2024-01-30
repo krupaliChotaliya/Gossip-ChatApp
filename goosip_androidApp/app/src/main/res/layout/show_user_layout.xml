@@ -3,25 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5sp"
+    android:layout_margin="@dimen/_5sdp"
     android:orientation="horizontal">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ProfilePicture"
-        android:layout_width="68sp"
-        android:layout_height="68sp"
+        android:layout_width="@dimen/_68sdp"
+        android:layout_height="@dimen/_68sdp"
         android:layout_gravity="center"
-        android:layout_marginLeft="23sp"
-        android:padding="5sp"
+        android:layout_marginLeft="@dimen/_23sdp"
+        android:padding="@dimen/_5sdp"
         android:src="@drawable/avatar"
         app:civ_border_color="#DED5D5"
-        app:civ_border_width="2sp" />
+        app:civ_border_width="@dimen/_2sdp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="5sp"
+        android:layout_marginLeft="@dimen/_5sdp"
         android:orientation="vertical">
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="User name"
-            android:textSize="18sp"
+            android:textSize="@dimen/_15sdp"
             android:textStyle="bold" />
 
         <TextView
@@ -39,11 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+000000000000" />
-    </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1sp"
-        android:background="@color/colorSecondary" />
+    </LinearLayout>
 
 </LinearLayout>

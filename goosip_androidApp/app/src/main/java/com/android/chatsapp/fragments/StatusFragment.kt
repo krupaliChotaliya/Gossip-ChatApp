@@ -394,8 +394,8 @@ class StatusFragment : Fragment(), StoryAdapter.RecycleViewEvent {
                         showPermissionExplanationDialog()
                     } else {
                         // Inform the user or handle this case accordingly
-                        Toast.makeText(context, "Camera permission denied", Toast.LENGTH_SHORT)
-                            .show()
+//                        Toast.makeText(context, "Camera permission denied", Toast.LENGTH_SHORT)
+//                            .show()
                     }
                 }
             }

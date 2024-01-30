@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.chatsapp.R
-import com.android.chatsapp.model.Story
 import com.android.chatsapp.model.User
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
@@ -55,7 +54,7 @@ class UserAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.username.text = list[position].name
-        holder.lastmesage.text = list[position].lastMessage
+        holder.lastmesage.text = list[position].status
         Picasso
             .get()
             .load(list[position].profileImg)

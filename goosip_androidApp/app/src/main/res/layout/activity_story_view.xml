@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8sp"
+    android:padding="@dimen/_8sdp"
+    android:background="@color/black"
     tools:context=".presentation.StoryViewActivity">
 
 
@@ -37,24 +38,24 @@
     <jp.shts.android.storiesprogressview.StoriesProgressView
         android:id="@+id/stories"
         android:layout_width="match_parent"
-        android:layout_height="3sp"
+        android:layout_height="@dimen/_3sdp"
         android:layout_alignParentTop="true"
         />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:orientation="horizontal">
 
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/profile_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
         android:src="@drawable/avatar"
-        app:civ_border_width="1dp"
+        app:civ_border_width="@dimen/_1sdp"
         app:civ_border_color="#FFFFFF"/>
 
     <LinearLayout
@@ -63,24 +64,23 @@
         android:layout_gravity="center"
         android:orientation="vertical">
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/username"
             android:text="Siddharth Singh"
             android:textColor="@color/colorWhite"
-            android:layout_marginStart="10dp"
-            android:textSize="15sp"/>
+            android:layout_marginStart="@dimen/_10sdp"
+            android:textSize="@dimen/_15sdp"/>
 
         <TextView
             android:id="@+id/storyTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:text="1hr Ago"
             android:textColor="@color/colorWhite"
-            android:textSize="12sp" />
+            android:textSize="@dimen/_12sdp" />
 
     </LinearLayout>
     </LinearLayout>

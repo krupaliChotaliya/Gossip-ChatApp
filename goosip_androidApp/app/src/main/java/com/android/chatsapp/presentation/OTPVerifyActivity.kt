@@ -36,7 +36,7 @@ class OTPVerifyActivity : AppCompatActivity() {
     private fun checkAuthenctionStatus() {
         try {
             auth = FirebaseAuth.getInstance()
-            val phoneno = intent.getStringExtra("phonenumber")
+            val phoneno = intent.getStringExtra("phone-number")
             binding.lblphoneno.text = "Verify $phoneno"
 
             loadingbar = ProgressDialog(this@OTPVerifyActivity)
@@ -49,9 +49,10 @@ class OTPVerifyActivity : AppCompatActivity() {
                 .setActivity(this@OTPVerifyActivity)
                 .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
+                        loadingbar.dismiss()
                     }
                     override fun onVerificationFailed(e: FirebaseException) {
-                        Log.i("Not verify", "failed");
+                        Log.i("Not verify", "failed")
                         Toast.makeText(this@OTPVerifyActivity, "Failed", Toast.LENGTH_SHORT).show()
                         val intent = Intent(
                             this@OTPVerifyActivity,
@@ -65,10 +66,12 @@ class OTPVerifyActivity : AppCompatActivity() {
                     ) {
                         super.onCodeSent(verifyId, forceResendingToken)
                         verificationId = verifyId
+                        loadingbar.dismiss()
                     }
                 }).build()
 
             PhoneAuthProvider.verifyPhoneNumber(options)
+
             binding.otpView.setOtpCompletionListener { otp ->
                 if (verificationId != null && otp != null) {
                     val credential: PhoneAuthCredential =
@@ -83,7 +86,7 @@ class OTPVerifyActivity : AppCompatActivity() {
                                         Toast.LENGTH_SHORT
                                     ).show()
 
-                                    loadingbar.dismiss()
+//                                    loadingbar.dismiss()
                                     val intent = Intent(
                                         this@OTPVerifyActivity,
                                         SetupProfileActivity::class.java
